@@ -60,3 +60,10 @@
 {
     margin: 0 0 11px;
 }
+.container {
+    max-width: 80%;
+}
+ul {
+    list-style: none;
+
+}
