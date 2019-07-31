@@ -39,11 +39,11 @@
 
         var html = '<div class="input-group ' + config.groupClass + '">' +
             '<div class="input-group-prepend">' +
-            '<button style="min-width: ' + config.buttonsWidth + '" class="btn btn-decrement ' + config.buttonsClass + ' removeButton" type="button">' + config.decrementButton + '</button>' +
+            '<button style="min-width: ' + config.buttonsWidth + '" class="btn btn-decrement ' + config.buttonsClass + ' removeFromCart" type="button">' + config.decrementButton + '</button>' +
             '</div>' +
             '<input type="text" style="text-align: ' + config.textAlign + '" class="form-control">' +
             '<div class="input-group-append">' +
-            '<button style="min-width: ' + config.buttonsWidth + '" class="btn btn-increment ' + config.buttonsClass + ' addButton" type="button">' + config.incrementButton + '</button>' +
+            '<button style="min-width: ' + config.buttonsWidth + '" class="btn btn-increment ' + config.buttonsClass + ' addToCart" type="button">' + config.incrementButton + '</button>' +
             '</div>' +
             '</div>';
 

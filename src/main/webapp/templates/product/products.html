@@ -27,6 +27,8 @@
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <!-- End of Bootstrap components -->
 
+    <script src="../../static/js/script.js" defer></script>
+
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css"/>
 </head>
 
@@ -78,7 +80,9 @@
                                 <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
                             </div>
                             <div class="card-text">
-                                <a class="btn btn-success" href="#">Add to cart</a>
+                                <button class="btn btn-success addToCart" th:value="${prod.id}">
+                                    Add to cart
+                                </button>
                             </div>
                         </div>
                     </div>

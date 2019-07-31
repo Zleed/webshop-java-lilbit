@@ -2,11 +2,11 @@
 
 function main() {
     window.onload = function () {
-        $(".addButton").bind("click", function () {
+        $(".addToCart").bind("click", function () {
             $.ajax({
                 type: "post",
-                url: "/",
-                data: JSON.parse(`{"buttonType": "addButton", "productID": ${$(this).val()}}`),
+                url: "/data-post-handler",
+                data: JSON.parse(`{"process": "addToCart", "productID": ${$(this).val()}}`),
                 dataType: "json"
             });
         });

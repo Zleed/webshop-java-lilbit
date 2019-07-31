@@ -5,8 +5,8 @@ function ajaxPost(button) {
             let id = $(this).closest("tr").find(".hidden-id").val();
             $.ajax({
                 type: "post",
-                url: "/",
-                data: JSON.parse(`{"buttonType": "${button}", "productID": ${id}}`),
+                url: "/data-post-handler",
+                data: JSON.parse(`{"process": "${button}", "productID": ${id}}`),
                 dataType: "json"
             });
         });
@@ -19,11 +19,11 @@ function main() {
 
         $("input[type='number']").inputSpinner();
 
-        ajaxPost("addButton");
+        ajaxPost("addToCart");
 
-        ajaxPost("removeButton");
+        ajaxPost("removeFromCart");
 
-        ajaxPost("removeAllButton")
+        ajaxPost("removeAllFromCart")
     }
 }
 
