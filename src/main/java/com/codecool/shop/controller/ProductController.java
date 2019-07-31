@@ -1,7 +1,9 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.implementation.CartDaoMen;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.config.TemplateEngineUtil;
@@ -20,10 +22,15 @@ import java.util.Map;
 @WebServlet(urlPatterns = {"/"})
 public class ProductController extends HttpServlet {
 
+    private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+    private ProductDao productDataStore = ProductDaoMem.getInstance();
+    private CartDao cartData = CartDaoMen.getInstance();
+
+
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
@@ -37,4 +44,17 @@ public class ProductController extends HttpServlet {
         engine.process("product/index.html", context, resp.getWriter());
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getParameter("buttonType").equals("addButton")) {
+            cartData.add(productDataStore.find(Integer.parseInt(req.getParameter("productID"))));
+        }
+        else if (req.getParameter("buttonType").equals("removeButton")) {
+            cartData.remove(productDataStore.find(Integer.parseInt(req.getParameter("productID"))));
+        }
+        else {
+            cartData.removeAll(productDataStore.find(Integer.parseInt(req.getParameter("productID"))));
+        }
+
+    }
 }
