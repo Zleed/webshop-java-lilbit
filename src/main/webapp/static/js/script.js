@@ -5,7 +5,7 @@ function main() {
         $(".addToCart").bind("click", function () {
             $.ajax({
                 type: "post",
-                url: "/data-post-handler",
+                url: "/api/cart",
                 data: JSON.parse(`{"process": "addToCart", "productID": ${$(this).val()}}`),
                 dataType: "json"
             });

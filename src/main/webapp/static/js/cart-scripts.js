@@ -5,7 +5,7 @@ function ajaxPost(button) {
             let id = $(this).closest("tr").find(".hidden-id").val();
             $.ajax({
                 type: "post",
-                url: "/data-post-handler",
+                url: "/api/cart",
                 data: JSON.parse(`{"process": "${button}", "productID": ${id}}`),
                 dataType: "json"
             });
