@@ -42,30 +42,28 @@
     </div>
 
     <div id="products" class="row">
-        <div class="col-2">
-            <form action="/" method="POST">
-                <input type="submit" value="Filter">
-                <p>
-                    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
-                       aria-expanded="false" aria-controls="collapseExample">
-                        ProductCategory
-                    </a>
-                </p>
-                <div class="collapse" id="collapseExample">
-                    <div class="card card-body">
+        <div class="col col-lg-2">
+            <p>
+                <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
+                   aria-expanded="false" aria-controls="collapseExample">
+                    Suppliers
+                </a>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
 
-                        <ul th:each="cat, iterStat : ${categories}">
-                            <li>
-                                <input type="radio" name="CategoryName" id="ID" th:id="${cat.getId()}" value="CategoryID" th:value="${cat.getId()}">
-                                <label for="ID" th:for="${cat.getId()}" th:text="${cat.getName()}">CategoryName</label>
-                            </li>
-                        </ul>
+                    <ul th:each="supplier, iterStat : ${suppliers}">
+                        <li>
+                            <input type="radio" name="CategoryName" id="ID" th:id="${supplier.id}" value="CategoryID"
+                                   th:value="${supplier.id}">
+                            <label for="ID" th:for="${supplier.id}" th:text="${supplier.name}">CategoryName</label>
+                        </li>
+                    </ul>
 
-                    </div>
                 </div>
-            </form>
+            </div>
         </div>
-        <div class="col-10">
+        <div class="col col-lg-10">
             <div class="row">
                 <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
                     <div class="card">
