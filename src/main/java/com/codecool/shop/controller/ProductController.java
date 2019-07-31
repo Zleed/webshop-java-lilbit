@@ -38,4 +38,9 @@ public class ProductController extends HttpServlet {
         context.setVariable("suppliers",productsByID.stream().map( item -> item.getSupplier()).collect(Collectors.toSet()));
         engine.process("product/products.html", context, resp.getWriter());
     }
+
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        System.out.println(req.getParameter("process"));
+//    }
 }

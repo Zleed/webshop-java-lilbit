@@ -56,7 +56,7 @@
 
                     <ul th:each="supplier, iterStat : ${suppliers}">
                         <li>
-                            <input type="radio" name="CategoryName" id="ID" th:id="${supplier.id}" value="CategoryID"
+                            <input class="supplierButton" type="radio" name="CategoryName" id="ID" th:id="${supplier.id}" value="CategoryID"
                                    th:value="${supplier.id}">
                             <label for="ID" th:for="${supplier.id}" th:text="${supplier.name}">CategoryName</label>
                         </li>
