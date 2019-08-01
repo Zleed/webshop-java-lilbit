@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -60,15 +60,15 @@
                                     <tr><td><br></td></tr>
                                     <tr>
                                         <td class="border-0 bg-light">
-                                            <h4 class="card-title center" th:text="${prod.name}">Product name</h4>
-                                            <img class="mini-pic" src="http://placehold.it/40x25/000/fff" th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" />
+                                            <h4 class="card-title center" th:text="${prod.key.name}">Product name</h4>
+                                            <img class="mini-pic" src="http://placehold.it/40x25/000/fff" th:attr="src='/static/img/product_' + ${prod.key.id} + '.jpg'" alt="" />
                                         </td>
                                         <td>
-                                            <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
+                                            <p class="lead" th:text="${prod.key.getPrice()}">100 USD</p>
                                         </td>
                                         <td>
-                                            <input class="form-control-lg" type="number" value="1" min="0" max="100" step="1"/>
-                                            <input class="hidden-id" th:value="${prod.id}" hidden/>
+                                            <input class="form-control-lg quantity" type="number" th:value="${prod.value}" min="0" max="100" step="1"/>
+                                            <input class="hidden-id" th:value="${prod.key.id}" hidden/>
                                         </td>
                                         <td>
                                             <button class="btn btn-danger btn-lg removeAllFromCart">Remove All</button>

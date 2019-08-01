@@ -2,13 +2,11 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.model.Product;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class CartDaoMen implements CartDao {
 
-    private List<Product> data = new ArrayList<>();
+    private HashMap<Product, Integer> data = new HashMap<Product, Integer>();
     private static CartDaoMen instance = null;
 
     /* A private Constructor prevents any other class from instantiating.
@@ -25,17 +23,19 @@ public class CartDaoMen implements CartDao {
 
     @Override
     public void removeAll(Product product) {
-        data.removeIf(prod -> (prod.equals(product)));
+        data.remove(product);
     }
 
     @Override
     public void add(Product product) {
-        data.add(product);
+        int count = data.getOrDefault(product, 0);
+        data.put(product, count + 1);
     }
 
     @Override
     public void remove(Product product) {
-        data.remove(product);
+        data.put(product, data.get(product) - 1);
+        if (data.get(product) == 0) data.remove(product);
     }
 
     @Override
@@ -43,7 +43,21 @@ public class CartDaoMen implements CartDao {
     }
 
     @Override
-    public List<Product> getAll() {
+    public HashMap<Product, Integer> getAll() {
         return data;
+    }
+
+    @Override
+    public void setQuantity(Product product, int quantity) {
+        if (quantity < 0) {
+            for(int i=0;i<quantity*-1; i++) {
+                remove(product);
+            }
+        }
+        else if (quantity > 0) {
+            for(int i=0; i<quantity; i++) {
+                add(product);
+            }
+        }
     }
 }

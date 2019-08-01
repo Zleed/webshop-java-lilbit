@@ -2,7 +2,7 @@ package com.codecool.shop.dao;
 
 import com.codecool.shop.model.Product;
 
-import java.util.List;
+import java.util.HashMap;
 
 public interface CartDao {
 
@@ -10,5 +10,7 @@ public interface CartDao {
     void remove(Product product);
     void find(Product product);
     void removeAll(Product product);
-    List<Product> getAll();
+    HashMap<Product, Integer> getAll();
+
+    void setQuantity(Product product, int quantity);
 }
