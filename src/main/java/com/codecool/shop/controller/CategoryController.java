@@ -1,8 +1,11 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.ProductCategoryDao;
+import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.model.Order;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -26,5 +29,14 @@ public class CategoryController extends HttpServlet {
         context.setVariable("categories",productCategoryDataStore.getAll());
 
         engine.process("product/categories.html", context, resp.getWriter());
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println(req.getAttribute("orderID"));
+        OrderDao orderDataStore = OrderDaoMem.getInstance();
+        Order order = orderDataStore.find(1);
+        System.out.println(order.getStatus());
+        doGet(req,resp);
     }
 }

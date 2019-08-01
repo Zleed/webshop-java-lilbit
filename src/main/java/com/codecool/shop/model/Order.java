@@ -1,6 +1,6 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.dao.CartDao;
+import java.util.HashMap;
 
 public class Order {
 
@@ -8,7 +8,12 @@ public class Order {
 
     private Status status;
 
-    private CartDao orders;
+    private HashMap<Product,Integer> orderedProducts;
+
+    public Order(Status status, HashMap<Product,Integer> orderedProducts) {
+        this.status = status;
+        this.orderedProducts = orderedProducts;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -18,13 +23,19 @@ public class Order {
         return id;
     }
 
-    public void setOrders(CartDao orders) {
-        this.orders = orders;
+    public void setOrderedProducts(HashMap<Product, Integer> orderedProducts) {
+        this.orderedProducts = orderedProducts;
     }
-}
 
-enum Status {
-    NEW,
-    CHECKED,
-    PAID
+    public HashMap<Product, Integer> getOrderedProducts() {
+        return orderedProducts;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
 }
