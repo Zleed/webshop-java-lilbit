@@ -1,9 +1,12 @@
 package com.codecool.shop.model;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Supplier extends BaseModel {
+
     private List<Product> products;
 
     public Supplier(String name, String description) {

@@ -45,9 +45,9 @@
     <div id="categories" class="row">
         <div class="col col-sm-12 col-md-6 col-lg-4" th:each="category,iterStat : ${categories}">
             <div class="card">
-                <a th:href="@{/products(productCategoryID=${category.getId()})}">
+                <a th:href="@{/products(productCategoryID=${category.id})}">
                     <img class="card-img-top" src="http://placehold.it/400x250/000/fff"
-                         th:attr="src='/static/img/productCategory_' + ${category.getId()} + '.png'" alt=""/>
+                         th:attr="src='/static/img/productCategory_' + ${category.id} + '.png'" alt=""/>
                 </a>
                 <div class="card-header">
                     <h4 class="card-title" th:text="${category.getName()}">Product name</h4>
