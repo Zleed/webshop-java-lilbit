@@ -33,7 +33,15 @@ public class ProductController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
+
         WebContext context = new WebContext(req, resp, req.getServletContext());
+
+        setServletContext(context, req);
+
+        engine.process("product/products.html", context, resp.getWriter());
+    }
+
+    private void setServletContext(WebContext context, HttpServletRequest req) {
 
         int productCategoryID = Integer.parseInt(req.getParameter("productCategoryID"));
 
@@ -45,14 +53,19 @@ public class ProductController extends HttpServlet {
                 .stream()
                 .map(item -> item.getSupplier())
                 .collect(Collectors.toSet()));
-        engine.process("product/products.html", context, resp.getWriter());
     }
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<Product> filteredProducts = getProductsBySupplier(req);
+        int productCategoryID = Integer.parseInt(req.getParameter("productCategoryID"));
+
+        int supplierID = Integer.parseInt(req.getParameter("supplierID"));
+
+        List<Product> products = getProductsByCategoryID(productCategoryID);
+
+        List<Product> filteredProducts = filterProductsBySupplierId(products, supplierID);
 
         String productsJSON = stringify(filteredProducts);
 
@@ -68,20 +81,17 @@ public class ProductController extends HttpServlet {
         out.flush();
     }
 
-    private List<Product> getProductsBySupplier(HttpServletRequest req) {
-        int productCategoryID = Integer.parseInt(req.getParameter("productCategoryID"));
-        int supplierID = Integer.parseInt(req.getParameter("supplierID"));
+    private List<Product> getProductsByCategoryID(int productCategoryID) {
 
-        List<Product> filteredProductsByID = productDataStore.getBy(productCategoryDataStore.find(productCategoryID));
+        return productDataStore.getBy(productCategoryDataStore.find(productCategoryID));
+    }
 
-        List<Product> filteredProductsBySupplier = filteredProductsByID
+    private List<Product> filterProductsBySupplierId(List<Product> products, int supplierID) {
+        return products
                 .stream()
                 .filter(item -> item.getSupplier().getId() == supplierID)
                 .collect(Collectors.toList());
-
-        return filteredProductsBySupplier;
     }
-
 
     private String stringify(Object objectToString) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();

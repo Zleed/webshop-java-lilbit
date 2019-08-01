@@ -1,4 +1,11 @@
 window.onload = function () {
+
+    addToCartEventHandler();
+
+    supplierEventHandler();
+};
+
+function addToCartEventHandler() {
     $(".addToCart").bind("click", function () {
         $.ajax({
             type: "post",
@@ -7,12 +14,10 @@ window.onload = function () {
             dataType: "json"
         });
     });
-
-    supplierPost();
-};
+}
 
 
-function supplierPost() {
+function supplierEventHandler() {
 
     let supplierButtons = document.querySelectorAll(".supplierButton");
     for (let supplierButton of supplierButtons) {
@@ -72,6 +77,8 @@ function renderProducts(products) {
 
         productContainer.insertAdjacentHTML("afterbegin",productHTML);
     }
+
+    addToCartEventHandler();
 }
 
 //TODO Get to work with Java ES6
