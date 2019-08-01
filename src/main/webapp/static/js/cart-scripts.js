@@ -13,7 +13,7 @@ function ajaxPost(button) {
 
         let newQuantity = (button == "removeAllFromCart") ? 0 :  closestRow.find(".quantity").val();
         if (newQuantity == 0) {
-            $(this).closest("tr").remove();
+            closestRow.remove();
         }
     });
 }
@@ -50,6 +50,7 @@ function setQuantity() {
 function main() {
 
     window.onload = function () {
+
         $("input[type='number']").inputSpinner();
 
         setQuantity();
