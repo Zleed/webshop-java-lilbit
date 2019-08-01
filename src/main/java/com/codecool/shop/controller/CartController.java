@@ -41,7 +41,7 @@ public class CartController extends HttpServlet {
         orderDataStore.add(order);
 
         req.setAttribute("orderID", order.getId());
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/");
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/payment");
 
         dispatcher.forward(req, resp);
 
