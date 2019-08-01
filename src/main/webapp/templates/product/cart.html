@@ -56,8 +56,8 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody th:each="prod,iterStat : ${cart}">
-                                    <tr th:cellspacing="20">
+                                <tbody>
+                                    <tr th:cellspacing="20" th:each="prod,iterStat : ${cart}">
                                         <td class="border-0 bg-light">
                                             <h4 class="card-title center" th:text="${prod.key.name}">Product name</h4>
                                             <img class="mini-pic" src="http://placehold.it/40x25/000/fff" th:attr="src='/static/img/product_' + ${prod.key.id} + '.jpg'" alt="" />
@@ -71,6 +71,15 @@
                                         </td>
                                         <td>
                                             <button class="btn btn-danger btn-lg removeAllFromCart">Remove All</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-light"><div class="p-3 px-3 text-uppercase">SUM OF PRICE</div></td>
+                                        <td class="bg-light"><div class="p-3 px-3 text-uppercase" th:text="${sumOfPrice}">Price</div></td>
+                                        <td class="center">
+                                            <form action="/cart" method="post">
+                                                <button type="submit" class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 </tbody>

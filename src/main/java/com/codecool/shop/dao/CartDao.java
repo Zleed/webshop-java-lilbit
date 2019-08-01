@@ -13,4 +13,6 @@ public interface CartDao {
     HashMap<Product, Integer> getAll();
 
     void setQuantity(Product product, int quantity);
+
+    float getSumOfPrice();
 }
