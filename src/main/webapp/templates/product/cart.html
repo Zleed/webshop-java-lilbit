@@ -57,8 +57,7 @@
                                     </tr>
                                 </thead>
                                 <tbody th:each="prod,iterStat : ${cart}">
-                                    <tr><td><br></td></tr>
-                                    <tr>
+                                    <tr th:cellspacing="20">
                                         <td class="border-0 bg-light">
                                             <h4 class="card-title center" th:text="${prod.key.name}">Product name</h4>
                                             <img class="mini-pic" src="http://placehold.it/40x25/000/fff" th:attr="src='/static/img/product_' + ${prod.key.id} + '.jpg'" alt="" />
