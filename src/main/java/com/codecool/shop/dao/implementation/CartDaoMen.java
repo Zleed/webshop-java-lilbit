@@ -2,6 +2,7 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.model.Product;
+
 import java.util.HashMap;
 
 public class CartDaoMen implements CartDao {
@@ -23,14 +24,15 @@ public class CartDaoMen implements CartDao {
     }
 
     @Override
-    public float getSumOfPrice () {
+    public float getSumOfPrice() {
         return sumOfPrice;
     }
 
     @Override
     public void removeAll(Product product) {
+        System.out.println(getProductQuantity(product));
+        sumOfPrice -= product.getPrince() * getProductQuantity(product);
         data.remove(product);
-        sumOfPrice = 0;
     }
 
     @Override
@@ -48,10 +50,6 @@ public class CartDaoMen implements CartDao {
     }
 
     @Override
-    public void find(Product product) {
-    }
-
-    @Override
     public HashMap<Product, Integer> getAll() {
         return data;
     }
@@ -59,16 +57,24 @@ public class CartDaoMen implements CartDao {
     @Override
     public void setQuantity(Product product, int quantity) {
         if (quantity < 0) {
-            for(int i=0;i<quantity*-1; i++) {
+            for (int i = 0; i < quantity * -1; i++) {
                 remove(product);
                 sumOfPrice -= product.getPrince();
             }
-        }
-        else if (quantity > 0) {
-            for(int i=0; i<quantity; i++) {
+        } else if (quantity > 0) {
+            for (int i = 0; i < quantity; i++) {
                 add(product);
                 sumOfPrice += product.getPrince();
             }
         }
+    }
+
+    private int getProductQuantity(Product product) {
+        for (HashMap.Entry<Product, Integer> prod : data.entrySet()) {
+            if (product.equals(prod.getKey())) {
+                return prod.getValue();
+            }
+        }
+        return 0;
     }
 }

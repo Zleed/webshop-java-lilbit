@@ -40,7 +40,6 @@ public class CartController extends HttpServlet {
         Order order = new Order(Status.CHECKED, cartData.getAll());
         orderDataStore.add(order);
 
-        System.out.println(order.getId());
         req.setAttribute("orderID", order.getId());
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/payment");
 

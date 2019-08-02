@@ -4,6 +4,7 @@ import com.codecool.shop.config.TemplateEngineUtil;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +26,6 @@ public class PaymentProceedController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req,resp);
+        doGet(req, resp);
     }
 }

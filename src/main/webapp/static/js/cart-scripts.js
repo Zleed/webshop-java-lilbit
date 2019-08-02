@@ -1,5 +1,3 @@
-
-
 function ajaxPost(button) {
     $(`.${button}`).bind("click", function () {
         let closestRow = $(this).closest("tr");
@@ -11,7 +9,7 @@ function ajaxPost(button) {
             dataType: "json"
         });
 
-        let newQuantity = (button == "removeAllFromCart") ? 0 :  closestRow.find(".quantity").val();
+        let newQuantity = (button == "removeAllFromCart") ? 0 : closestRow.find(".quantity").val();
         if (newQuantity == 0) {
             closestRow.remove();
         }
@@ -31,7 +29,7 @@ function setQuantity() {
     inputTag.bind("blur", function () {
         let id = $(this).closest("tr").find(".hidden-id").val();
         newQuantity = $(this).val();
-        let quantity = newQuantity-oldQuantity;
+        let quantity = newQuantity - oldQuantity;
         $.ajax({
             type: "post",
             url: "/api/cart",

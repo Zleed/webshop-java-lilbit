@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns =  {"/"})
+@WebServlet(urlPatterns = {"/"})
 public class CategoryController extends HttpServlet {
 
     @Override
@@ -26,7 +26,7 @@ public class CategoryController extends HttpServlet {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
-        context.setVariable("categories",productCategoryDataStore.getAll());
+        context.setVariable("categories", productCategoryDataStore.getAll());
 
         engine.process("product/categories.html", context, resp.getWriter());
     }
@@ -37,6 +37,6 @@ public class CategoryController extends HttpServlet {
         OrderDao orderDataStore = OrderDaoMem.getInstance();
         Order order = orderDataStore.find(1);
         System.out.println(order.getStatus());
-        doGet(req,resp);
+        doGet(req, resp);
     }
 }

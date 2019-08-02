@@ -75,7 +75,7 @@
                                     </tr>
                                     <tr>
                                         <td class="bg-light"><div class="p-3 px-3 text-uppercase">SUM OF PRICE</div></td>
-                                        <td class="bg-light"><div class="p-3 px-3 text-uppercase" th:text="${sumOfPrice}">Price</div></td>
+                                        <td class="bg-light sumOfPrice"><div class="p-3 px-3 text-uppercase" th:value="${sumOfPrice}" th:text="${sumOfPrice} + ' USD'">Price</div></td>
                                         <td class="center">
                                             <form action="/cart" method="post">
                                                 <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
