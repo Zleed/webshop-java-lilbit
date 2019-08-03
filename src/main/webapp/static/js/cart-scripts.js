@@ -1,16 +1,24 @@
-function ajaxPost(button) {
+function main() {
+
+    window.onload = function () {
+
+        $("input[type='number']").inputSpinner();
+        setQuantityEventHandler();
+
+        setButtonEventHandler("addToCart");
+        setButtonEventHandler("removeFromCart");
+        setButtonEventHandler("removeAllFromCart")
+    }
+}
+
+
+function setButtonEventHandler(button) {
+
     $(`.${button}`).bind("click", function () {
         let closestRow = $(this).closest("tr");
         let id = closestRow.find(".hidden-id").val();
-        $.ajax({
-            type: "post",
-            url: "/api/cart",
-            data: JSON.parse(`{"process": "${button}", "productID": ${id}}`),
-            dataType: "json",
-            success: (sumOfPrice) => {
-                $(".sumOfPrice").text(sumOfPrice.toFixed(1)+ " USD");
-            }
-        });
+
+        api_post("/api/cart", `{"process": "${button}", "productID": ${id}}`, changeSumOfPriceValue);
 
         let newQuantity = (button == "removeAllFromCart") ? 0 : closestRow.find(".quantity").val();
         if (newQuantity == 0) {
@@ -20,7 +28,7 @@ function ajaxPost(button) {
 }
 
 
-function setQuantity() {
+function setQuantityEventHandler() {
     let oldQuantity;
     let newQuantity;
     let inputTag = $(".quantity");
@@ -33,38 +41,29 @@ function setQuantity() {
         let id = $(this).closest("tr").find(".hidden-id").val();
         newQuantity = $(this).val();
         let quantity = newQuantity - oldQuantity;
-        $.ajax({
-            type: "post",
-            url: "/api/cart",
-            data: JSON.parse(`{"process": "setQuantity", "productID": ${id}, "quantity": ${quantity}}`),
-            dataType: "json",
-            success: (sumOfPrice) => {
-                $(".sumOfPrice").text(sumOfPrice.toFixed(1)+ " USD");
-            }
-        });
+
+        api_post("/api/cart", `{"process": "setQuantity", "productID": ${id}, "quantity": ${quantity}}`, changeSumOfPriceValue);
 
         if (newQuantity == 0) {
             $(this).closest("tr").remove();
         }
     });
-
 }
 
 
-function main() {
+function changeSumOfPriceValue(sumOfPrice) {
+    $(".sumOfPrice").text(sumOfPrice.toFixed(1) + " USD");
+}
 
-    window.onload = function () {
 
-        $("input[type='number']").inputSpinner();
-
-        setQuantity();
-
-        ajaxPost("addToCart");
-
-        ajaxPost("removeFromCart");
-
-        ajaxPost("removeAllFromCart")
-    }
+function api_post(url, data, callback) {
+    $.ajax({
+        type: "post",
+        url: url,
+        data: JSON.parse(data),
+        dataType: "json",
+        success: callback
+    });
 }
 
 
