@@ -6,7 +6,10 @@ function ajaxPost(button) {
             type: "post",
             url: "/api/cart",
             data: JSON.parse(`{"process": "${button}", "productID": ${id}}`),
-            dataType: "json"
+            dataType: "json",
+            success: (sumOfPrice) => {
+                $(".sumOfPrice").text(sumOfPrice.toFixed(1)+ " USD");
+            }
         });
 
         let newQuantity = (button == "removeAllFromCart") ? 0 : closestRow.find(".quantity").val();
@@ -34,7 +37,10 @@ function setQuantity() {
             type: "post",
             url: "/api/cart",
             data: JSON.parse(`{"process": "setQuantity", "productID": ${id}, "quantity": ${quantity}}`),
-            dataType: "json"
+            dataType: "json",
+            success: (sumOfPrice) => {
+                $(".sumOfPrice").text(sumOfPrice.toFixed(1)+ " USD");
+            }
         });
 
         if (newQuantity == 0) {

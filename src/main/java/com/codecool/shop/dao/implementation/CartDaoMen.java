@@ -30,7 +30,6 @@ public class CartDaoMen implements CartDao {
 
     @Override
     public void removeAll(Product product) {
-        System.out.println(getProductQuantity(product));
         sumOfPrice -= product.getPrince() * getProductQuantity(product);
         data.remove(product);
     }
@@ -54,17 +53,15 @@ public class CartDaoMen implements CartDao {
         return data;
     }
 
-    @Override
+    @Override // TODO setQuantity refactor
     public void setQuantity(Product product, int quantity) {
         if (quantity < 0) {
             for (int i = 0; i < quantity * -1; i++) {
                 remove(product);
-                sumOfPrice -= product.getPrince();
             }
         } else if (quantity > 0) {
             for (int i = 0; i < quantity; i++) {
                 add(product);
-                sumOfPrice += product.getPrince();
             }
         }
     }
