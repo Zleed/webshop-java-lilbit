@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="supplierCollapseFragment" class="col col-lg-2">
+    <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="#supplierFilter" role="button"
+           aria-expanded="false" aria-controls="supplierFilter">
+            Suppliers
+        </a>
+    </p>
+    <div class="collapse" id="supplierFilter">
+        <div class="card card-body">
+
+            <ul th:each="supplier, iterStat : ${suppliers}">
+                <li>
+                    <input class="supplierButton" type="radio" name="CategoryName" id="ID" th:id="${supplier.id}" value="CategoryID"
+                           th:value="${supplier.id}" data-product-category-ID="ProductCategoryId" th:attr="data-product-category-Id=${category.id}"}>
+                    <label for="ID" th:for="${supplier.id}" th:text="${supplier.name}">CategoryName</label>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
