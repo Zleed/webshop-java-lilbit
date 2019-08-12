@@ -25,7 +25,6 @@ public class APICartController extends HttpServlet {
 
         ProductDao productDataStore = ProductDaoMem.getInstance();
         CartDao cartData = CartDaoMen.getInstance();
-
         String process = req.getParameter("process");
         Product product = productDataStore.find(Integer.parseInt(req.getParameter("productID")));
 
