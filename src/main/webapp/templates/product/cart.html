@@ -1,15 +1,15 @@
-<!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="head.html::headFragment">
+</head>
+<head th:insert="cart-script.html::cart-scriptFragment">
 </head>
 
 <navbar th:replace="navbar.html::navFragment">
 </navbar>
 
 <body>
-
 <div class="pb-5">
     <div class="container">
         <div class="row">
@@ -36,15 +36,13 @@
                         <tr th:cellspacing="20" th:each="prod,iterStat : ${cart}">
                             <td class="border-0 bg-light">
                                 <h4 class="card-title center" th:text="${prod.key.name}">Product name</h4>
-                                <img class="mini-pic" src="http://placehold.it/40x25/000/fff"
-                                     th:attr="src='/static/img/product_' + ${prod.key.id} + '.jpg'" alt=""/>
+                                <img class="mini-pic" src="http://placehold.it/40x25/000/fff" th:attr="src='/static/img/product_' + ${prod.key.id} + '.jpg'" alt="" />
                             </td>
                             <td>
                                 <p class="lead" th:text="${prod.key.getPrice()}">100 USD</p>
                             </td>
                             <td>
-                                <input class="form-control-lg quantity" type="number" th:value="${prod.value}" min="0"
-                                       max="100" step="1"/>
+                                <input class="form-control-lg quantity" type="number" th:value="${prod.value}" min="0" max="100" step="1"/>
                                 <input class="hidden-id" th:value="${prod.key.id}" hidden/>
                             </td>
                             <td>
@@ -52,19 +50,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="bg-light">
-                                <div class="p-3 px-3 text-uppercase">SUM OF PRICE</div>
-                            </td>
-                            <td class="bg-light sumOfPrice">
-                                <div class="p-3 px-3 text-uppercase" th:value="${sumOfPrice}"
-                                     th:text="${sumOfPrice} + ' USD'">Price
-                                </div>
-                            </td>
+                            <td class="bg-light"><div class="p-3 px-3 text-uppercase">SUM OF PRICE</div></td>
+                            <td class="bg-light sumOfPrice"><div class="p-3 px-3 text-uppercase" th:value="${sumOfPrice}" th:text="${sumOfPrice} + ' USD'">Price</div></td>
                             <td class="center">
                                 <form action="/cart" method="post">
-                                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to
-                                        checkout
-                                    </button>
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
                                 </form>
                             </td>
                         </tr>
