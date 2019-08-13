@@ -13,7 +13,7 @@ import java.util.List;
 public class ProductDaoJDBC implements ProductDao {
 
     //    private transient List<Product> data = new ArrayList<>();
-    private static JDBC data = JDBC.getInstance();
+    private static JDBC instanceOFJDBC = JDBC.getInstance();
     private static ProductDaoJDBC instance = null;
 
     /* A private Constructor prevents any other class from instantiating.
@@ -31,7 +31,6 @@ public class ProductDaoJDBC implements ProductDao {
     @Override
     public void add(Product product) {
 
-        JDBC instanceOFJDBC = JDBC.getInstance();
         String query = "INSERT INTO product " +
                 "(name, description, price, currency, product_category_id, supplier_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
@@ -56,24 +55,27 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public void remove(int id) {
-//        data.remove(find(id));
+
     }
 
     @Override
     public List<Product> getAll() {
-//        return data;
-        return new LinkedList<>();
+        String query = "SELECT * FROM product";
+        return instanceOFJDBC.getAllProductCategory(Class<Product>, query,
+                (preparedStatement) -> { preparedStatement.executeQuery()});
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) {
-        return new LinkedList<>();
-//        return data.stream().filter(t -> t.getSupplier().equals(supplier)).collect(Collectors.toList());
+        String query = "SELECT * FROM product " +
+                       "WHERE supplier_id = "+ supplier.getId();
+        return instanceOFJDBC.executeQueryWithResult(query);
     }
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
-        return new LinkedList<>();
-//        return data.stream().filter(t -> t.getProductCategory().equals(productCategory)).collect(Collectors.toList());
+        String query = "SELECT * FROM product " +
+                       "WHERE product_category_id = "+ productCategory.getId();
+        return instanceOFJDBC.executeQueryWithResult(query);
     }
 }
