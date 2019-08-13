@@ -139,20 +139,26 @@ public class JDBC {
                                                                Consumer<PreparedStatement>... parameters) {
         System.out.println("Creating statement...");
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             Statement statement = connection.createStatement();
+             ) {
 
-            for (Consumer<PreparedStatement> parameter : parameters) {
-                parameter.accept(preparedStatement);
-            }
-            List<T> productList = new ArrayList<>();
-            while (resultSet.next()) {
-                T product = BaseModel.createFrom(witness, resultSet);
+//            for (Consumer<PreparedStatement> parameter : parameters) {
+//                parameter.accept(statement);
+//            }
 
-                productList.add(product);
-                System.out.println(product);
+
+            try (ResultSet resultSet = statement.executeQuery(query)) {
+                List<T> productList = new ArrayList<>();
+                while (resultSet.next()) {
+                    System.out.println("ITT VAN");
+                    System.out.println(resultSet.getString(2));
+                    T product = BaseModel.createFrom(witness, resultSet);
+
+                    productList.add(product);
+                }
+                return productList;
             }
-            return productList;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

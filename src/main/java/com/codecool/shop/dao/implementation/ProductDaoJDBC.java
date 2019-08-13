@@ -7,6 +7,8 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,6 +29,20 @@ public class ProductDaoJDBC implements ProductDao {
         }
         return instance;
     }
+
+//    private static void accept(PreparedStatement preparedStatement) {
+//        try {
+////            preparedStatement.setString(1, "id");
+//            preparedStatement.setString(1, "name");
+////            preparedStatement.setString(3, "currency");
+//            preparedStatement.setString(2, "description");
+////            preparedStatement.setString(5, "product_category_id");
+////            preparedStatement.setString(6, "supplier_id");
+//        } catch (SQLException e) {
+//            throw new IllegalArgumentException("Wrong SQL parameter setup", e);
+//        }
+//
+//    }
 
     @Override
     public void add(Product product) {
@@ -60,9 +76,8 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public List<Product> getAll() {
-        String query = "SELECT * FROM product";
-        return instanceOFJDBC.getAllProductCategory(Class<Product>, query,
-                (preparedStatement) -> { preparedStatement.executeQuery()});
+        String query = "SELECT name, description FROM product";
+        return instanceOFJDBC.getAllProductCategory(Product.class, query);
     }
 
     @Override

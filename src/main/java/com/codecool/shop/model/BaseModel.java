@@ -31,10 +31,12 @@ public class BaseModel {
             Constructor<T> ctor = witness.getDeclaredConstructor(ResultSet.class);
             return ctor.newInstance(resultSet);
         } catch (NoSuchMethodException e) {
-            throw new IllegalArgumentException("Wrong type: " + witness, e);
+            e.printStackTrace();
+//            throw new IllegalArgumentException("Wrong type: " + witness, e);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException("Class "+ witness + " Has missing ctor", e);
         }
+        return null;
     }
 
 

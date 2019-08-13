@@ -32,6 +32,10 @@ public class Product extends BaseModel {
         this.setProductCategory(productCategory);
     }
 
+    public Product(String name, String description) {
+        super(name, description);
+    }
+
     public float getDefaultPrice() {
         return defaultPrice;
     }
