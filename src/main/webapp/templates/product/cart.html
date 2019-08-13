@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
 
-<head th:replace="head.html::headFragment">
-</head>
-<head th:insert="cart-script.html::cart-scriptFragment">
-</head>
+    <div th:replace="head.html::headFragment">
+    </div>
 
+    <script src="../../static/js/bootstrap-input-spinner.js" defer></script>
+    <script src="../../static/js/cart-scripts.js" defer></script>
+
+</head>
 <navbar th:replace="navbar.html::navFragment">
 </navbar>
-
 <body>
 <div class="pb-5">
     <div class="container">
