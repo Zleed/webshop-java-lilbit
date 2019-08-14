@@ -18,30 +18,17 @@ public class Product extends BaseModel {
     @Expose
     private Supplier supplier;
 
-
-    public Product(String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
-        super(name, description);
-        this.setPrice(defaultPrice, currencyString);
-        this.setSupplier(supplier);
-        this.setProductCategory(productCategory);
-    }
-
-    public Product(int id, String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
-        super(name, description);
-        this.id = id;
-        this.setPrice(defaultPrice, currencyString);
-        this.setSupplier(supplier);
-        this.setProductCategory(productCategory);
-    }
-
-
     public Product(ResultSet ProductData) throws SQLException {
         super(ProductData.getString("name"), ProductData.getString("description"));
         JDBC instanceOfJDBC = JDBC.getInstance();
-        this.id = ProductData.getInt("id");
-        this.setPrice(ProductData.getFloat("price"), ProductData.getString("currency"));
-        this.setSupplier(instanceOfJDBC.getSupplierFromDB(ProductData.getInt("supplier_id")));
-        this.setProductCategory(instanceOfJDBC.getProductCategoryFromDB(ProductData.getInt("product_category_id")));
+        id = ProductData.getInt("id");
+        setPrice(ProductData.getFloat("price"), ProductData.getString("currency"));
+        setSupplier(instanceOfJDBC.find(Supplier.class,
+                                  "SELECT * FROM supplier WHERE id = ?",
+                                        ProductData.getInt("supplier_id")));
+        setProductCategory(instanceOfJDBC.find(ProductCategory.class,
+                                  "SELECT * FROM product_category WHERE id = ?",
+                                        ProductData.getInt("product_category_id")));
     }
 
     public float getDefaultPrice() {

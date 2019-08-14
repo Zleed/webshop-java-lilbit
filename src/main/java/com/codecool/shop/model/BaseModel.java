@@ -18,6 +18,7 @@ public class BaseModel {
     @Expose
     protected String description;
 
+
     public BaseModel(String name) {
         this.name = name;
     }
@@ -38,8 +39,6 @@ public class BaseModel {
             throw new RuntimeException("Class "+ witness + " Has missing ctor", e);
         }
     }
-
-
 
 
     public int getId() {

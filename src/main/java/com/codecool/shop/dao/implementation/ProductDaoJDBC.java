@@ -1,20 +1,16 @@
 package com.codecool.shop.dao.implementation;
 
-
 import com.codecool.shop.dao.JDBC;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ProductDaoJDBC implements ProductDao {
 
-    //    private transient List<Product> data = new ArrayList<>();
     private static JDBC instanceOFJDBC = JDBC.getInstance();
     private static ProductDaoJDBC instance = null;
 
@@ -29,20 +25,6 @@ public class ProductDaoJDBC implements ProductDao {
         }
         return instance;
     }
-
-//    private static void accept(PreparedStatement preparedStatement) {
-//        try {
-////            preparedStatement.setString(1, "id");
-//            preparedStatement.setString(1, "name");
-////            preparedStatement.setString(3, "currency");
-//            preparedStatement.setString(2, "description");
-////            preparedStatement.setString(5, "product_category_id");
-////            preparedStatement.setString(6, "supplier_id");
-//        } catch (SQLException e) {
-//            throw new IllegalArgumentException("Wrong SQL parameter setup", e);
-//        }
-//
-//    }
 
     @Override
     public void add(Product product) {
@@ -76,14 +58,14 @@ public class ProductDaoJDBC implements ProductDao {
     @Override
     public List<Product> getAll() {
         String query = "SELECT * FROM product";
-        return instanceOFJDBC.securedExecuteQuery(Product.class, query);
+        return instanceOFJDBC.getAll(Product.class, query);
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) {
         String query = "SELECT * FROM product " +
                 "WHERE supplier_id = ?";
-        return instanceOFJDBC.securedExecuteQuery(Product.class, query, (preparedStatement) -> {
+        return instanceOFJDBC.getAll(Product.class, query, (preparedStatement) -> {
             try {
                 preparedStatement.setInt(1, supplier.getId());
             } catch (SQLException e) {
@@ -96,7 +78,7 @@ public class ProductDaoJDBC implements ProductDao {
     public List<Product> getBy(ProductCategory productCategory) {
         String query = "SELECT * FROM product " +
                 "WHERE product_category_id = ?";
-        return instanceOFJDBC.securedExecuteQuery(Product.class, query, (preparedStatement) -> {
+        return instanceOFJDBC.getAll(Product.class, query, (preparedStatement) -> {
             try {
                 preparedStatement.setInt(1, productCategory.getId());
             } catch (SQLException e) {

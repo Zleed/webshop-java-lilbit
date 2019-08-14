@@ -32,7 +32,8 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public ProductCategory find(int id) {
-        return instanceOFJDBC.getProductCategoryFromDB(id);
+        String query = "SELECT * FROM product_category WHERE id = ?";
+        return instanceOFJDBC.find(ProductCategory.class, query, id);
     }
 
     @Override
@@ -43,6 +44,6 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     @Override
     public List<ProductCategory> getAll() {
         String query = "SELECT * FROM product_category";
-        return instanceOFJDBC.securedExecuteQuery(ProductCategory.class, query);
+        return instanceOFJDBC.getAll(ProductCategory.class, query);
     }
 }

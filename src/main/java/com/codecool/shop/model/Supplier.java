@@ -1,23 +1,21 @@
 package com.codecool.shop.model;
 
-import com.google.gson.annotations.Expose;
-
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Supplier extends BaseModel {
 
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
 
-    public Supplier(String name, String description) {
-        super(name);
-        this.products = new ArrayList<>();
+
+    public Supplier(ResultSet supplierData) throws SQLException {
+        super(supplierData.getString("name"));
+        id = supplierData.getInt("id");
+        description = supplierData.getString("description");
     }
-    public Supplier(int id, String name, String description) {
-        super(name);
-        this.id = id;
-        this.products = new ArrayList<>();
-    }
+
 
     public void setProducts(ArrayList<Product> products) {
         this.products = products;

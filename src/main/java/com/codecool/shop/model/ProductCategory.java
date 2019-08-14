@@ -12,18 +12,6 @@ public class ProductCategory extends BaseModel {
 
     private List<Product> products = new ArrayList<>();
 
-    public ProductCategory(String name, String department, String description) {
-        super(name,description);
-        this.department = department;
-
-    }
-
-
-    public ProductCategory(int id, String name, String department, String description) {
-        super(name,description);
-        this.id = id;
-        this.department = department;
-    }
 
     public ProductCategory(ResultSet data) throws SQLException {
         super(data.getString("name"), data.getString("description"));
