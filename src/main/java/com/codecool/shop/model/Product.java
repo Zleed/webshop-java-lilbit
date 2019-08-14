@@ -1,6 +1,7 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.dao.JDBC;
+import com.codecool.shop.dao.implementation.ProductCategoryDaoJDBC;
+import com.codecool.shop.dao.implementation.SupplierDaoJDBC;
 import com.google.gson.annotations.Expose;
 
 import java.sql.ResultSet;
@@ -20,15 +21,10 @@ public class Product extends BaseModel {
 
     public Product(ResultSet ProductData) throws SQLException {
         super(ProductData.getString("name"), ProductData.getString("description"));
-        JDBC instanceOfJDBC = JDBC.getInstance();
         id = ProductData.getInt("id");
         setPrice(ProductData.getFloat("price"), ProductData.getString("currency"));
-        setSupplier(instanceOfJDBC.find(Supplier.class,
-                                  "SELECT * FROM supplier WHERE id = ?",
-                                        ProductData.getInt("supplier_id")));
-        setProductCategory(instanceOfJDBC.find(ProductCategory.class,
-                                  "SELECT * FROM product_category WHERE id = ?",
-                                        ProductData.getInt("product_category_id")));
+        setSupplier(SupplierDaoJDBC.getInstance().find(ProductData.getInt("supplier_id")));
+        setProductCategory(ProductCategoryDaoJDBC.getInstance().find(ProductData.getInt("product_category_id")));
     }
 
     public float getDefaultPrice() {

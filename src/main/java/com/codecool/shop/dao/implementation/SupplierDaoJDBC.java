@@ -9,13 +9,13 @@ import java.util.List;
 public class SupplierDaoJDBC implements SupplierDao {
 
     private static JDBC instanceOFJDBC = JDBC.getInstance();
-    private SupplierDaoJDBC instance = null;
+    private static SupplierDaoJDBC instance = null;
 
     private SupplierDaoJDBC() {
 
     }
 
-    public SupplierDaoJDBC getInstance() {
+    public static SupplierDaoJDBC getInstance() {
         if (instance == null) {
             instance = new SupplierDaoJDBC();
         }

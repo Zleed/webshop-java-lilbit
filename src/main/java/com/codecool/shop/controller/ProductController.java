@@ -48,7 +48,6 @@ public class ProductController extends HttpServlet {
 
         int productCategoryID = Integer.parseInt(req.getParameter("productCategoryID"));
 
-//        System.out.println(productCategoryDataStore.find(productCategoryID).toString());
         List<Product> productsByID = productDataStore.getBy(productCategoryDataStore.find(productCategoryID));
 
         context.setVariable("products", productsByID);
