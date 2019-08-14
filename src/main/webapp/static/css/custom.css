@@ -89,7 +89,12 @@ table{
 }
 
 footer {
-    background-color: #2E2E2E;
     color: white;
     text-align: center;
+    line-height: 5px;
+    background-color: #111;
+}
+
+#openNav {
+    cursor: pointer;
 }
