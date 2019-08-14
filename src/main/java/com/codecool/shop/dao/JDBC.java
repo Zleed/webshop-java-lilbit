@@ -33,21 +33,34 @@ public class JDBC {
         return DriverManager.getConnection(DB_URL, USER, PASS);
     }
 
-    public void executeQuery(String query, Object... parameters) {
+    public void CUDQuery(String query,
+                         Consumer<PreparedStatement>... parameters) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            System.out.println("Creating statement...");
-            int i = 1;
-            for (Object parameter : parameters) {
-                preparedStatement.setObject(i++, parameter);
+            for (Consumer<PreparedStatement> parameter : parameters) {
+                parameter.accept(preparedStatement);
             }
-
-            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+//    public void executeQuery(String query, Object... parameters) {
+//        try (Connection connection = getConnection();
+//             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+//
+//            System.out.println("Creating statement...");
+//            int i = 1;
+//            for (Object parameter : parameters) {
+//                preparedStatement.setObject(i++, parameter);
+//            }
+//
+//            preparedStatement.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public <T extends BaseModel> T find(Class<T> witness, String query, int id) {
         try (Connection connection = getConnection();

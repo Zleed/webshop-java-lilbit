@@ -26,6 +26,25 @@ public class ProductDaoJDBC implements ProductDao {
         return instance;
     }
 
+//    @Override
+//    public void add(Product product) {
+//
+//        String query = "INSERT INTO product " +
+//                "(name, description, price, currency, product_category_id, supplier_id) " +
+//                "VALUES (?, ?, ?, ?, ?, ?)";
+//
+//        Object[] productDetails = {
+//                product.getName(),
+//                product.getDescription(),
+//                product.getDefaultPrice(),
+//                product.getDefaultCurrency().getCurrencyCode(),
+//                product.getProductCategory().getId(),
+//                product.getSupplier().getId()
+//        };
+//
+//        instanceOFJDBC.executeQuery(query, productDetails);
+//    }
+
     @Override
     public void add(Product product) {
 
@@ -33,16 +52,21 @@ public class ProductDaoJDBC implements ProductDao {
                 "(name, description, price, currency, product_category_id, supplier_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
-        Object[] productDetails = {
-                product.getName(),
-                product.getDescription(),
-                product.getDefaultPrice(),
-                product.getDefaultCurrency().getCurrencyCode(),
-                product.getProductCategory().getId(),
-                product.getSupplier().getId()
-        };
+        instanceOFJDBC.CUDQuery(query, (preparedStatement -> {
+            try {
+                preparedStatement.setString(1, product.getName());
+                preparedStatement.setString(2, product.getDescription());
+                preparedStatement.setDouble(3, product.getDefaultPrice());
+                preparedStatement.setString(4, product.getDefaultCurrency().getCurrencyCode());
+                preparedStatement.setInt(5, product.getProductCategory().getId());
+                preparedStatement.setInt(6, product.getSupplier().getId());
 
-        instanceOFJDBC.executeQuery(query, productDetails);
+                preparedStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
     @Override

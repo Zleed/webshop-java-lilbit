@@ -1,6 +1,9 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.dao.UserDao;
+import com.codecool.shop.dao.implementation.UserDaoJDBC;
+import com.codecool.shop.model.User;
 import com.codecool.shop.util.BCrypt;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -14,6 +17,8 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/signin"})
 public class SignInController extends HttpServlet {
+
+    private UserDao userInstance = UserDaoJDBC.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,7 +35,8 @@ public class SignInController extends HttpServlet {
         String email = req.getParameter("email");
         String hashed = BCrypt.hashpw(req.getParameter("password"), BCrypt.gensalt());
 
-
+        User user = new User(name,email,hashed);
+        userInstance.add(user);
 
         resp.sendRedirect("/");
     }
