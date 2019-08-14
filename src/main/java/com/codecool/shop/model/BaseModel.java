@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class BaseModel {
 
@@ -32,11 +33,10 @@ public class BaseModel {
             return ctor.newInstance(resultSet);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-//            throw new IllegalArgumentException("Wrong type: " + witness, e);
+            throw new IllegalArgumentException("Wrong type: " + witness, e);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException("Class "+ witness + " Has missing ctor", e);
         }
-        return null;
     }
 
 

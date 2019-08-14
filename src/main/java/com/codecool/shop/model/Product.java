@@ -1,7 +1,10 @@
 package com.codecool.shop.model;
 
+import com.codecool.shop.dao.JDBC;
 import com.google.gson.annotations.Expose;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Currency;
 
 public class Product extends BaseModel {
@@ -23,7 +26,6 @@ public class Product extends BaseModel {
         this.setProductCategory(productCategory);
     }
 
-
     public Product(int id, String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
         super(name, description);
         this.id = id;
@@ -32,8 +34,14 @@ public class Product extends BaseModel {
         this.setProductCategory(productCategory);
     }
 
-    public Product(String name, String description) {
-        super(name, description);
+
+    public Product(ResultSet ProductData) throws SQLException {
+        super(ProductData.getString("name"), ProductData.getString("description"));
+        JDBC instanceOfJDBC = JDBC.getInstance();
+        this.id = ProductData.getInt("id");
+        this.setPrice(ProductData.getFloat("price"), ProductData.getString("currency"));
+        this.setSupplier(instanceOfJDBC.getSupplierFromDB(ProductData.getInt("supplier_id")));
+        this.setProductCategory(instanceOfJDBC.getProductCategoryFromDB(ProductData.getInt("product_category_id")));
     }
 
     public float getDefaultPrice() {

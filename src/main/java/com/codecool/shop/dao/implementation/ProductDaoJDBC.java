@@ -65,7 +65,6 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public Product find(int id) {
-//        return data.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
         return null;
     }
 
@@ -76,21 +75,33 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public List<Product> getAll() {
-        String query = "SELECT name, description FROM product";
-        return instanceOFJDBC.getAllProductCategory(Product.class, query);
+        String query = "SELECT * FROM product";
+        return instanceOFJDBC.securedExecuteQuery(Product.class, query);
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) {
         String query = "SELECT * FROM product " +
-                       "WHERE supplier_id = "+ supplier.getId();
-        return instanceOFJDBC.executeQueryWithResult(query);
+                "WHERE supplier_id = ?";
+        return instanceOFJDBC.securedExecuteQuery(Product.class, query, (preparedStatement) -> {
+            try {
+                preparedStatement.setInt(1, supplier.getId());
+            } catch (SQLException e) {
+                throw new IllegalArgumentException("Wrong supplier_id", e);
+            }
+        });
     }
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
         String query = "SELECT * FROM product " +
-                       "WHERE product_category_id = "+ productCategory.getId();
-        return instanceOFJDBC.executeQueryWithResult(query);
+                "WHERE product_category_id = ?";
+        return instanceOFJDBC.securedExecuteQuery(Product.class, query, (preparedStatement) -> {
+            try {
+                preparedStatement.setInt(1, productCategory.getId());
+            } catch (SQLException e) {
+                throw new IllegalArgumentException("Wrong product_category_id", e);
+            }
+        });
     }
 }

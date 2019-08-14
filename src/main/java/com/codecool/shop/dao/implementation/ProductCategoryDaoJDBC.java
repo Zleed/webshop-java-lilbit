@@ -1,12 +1,29 @@
 package com.codecool.shop.dao.implementation;
 
+import com.codecool.shop.dao.JDBC;
 import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.ProductCategory;
 
 import java.util.List;
 
 public class ProductCategoryDaoJDBC implements ProductCategoryDao {
+
+    private static JDBC instanceOFJDBC = JDBC.getInstance();
+
+    private static ProductCategoryDaoJDBC instance = null;
+
+    /* A private Constructor prevents any other class from instantiating.
+     */
+    private ProductCategoryDaoJDBC() {
+    }
+
+    public static ProductCategoryDaoJDBC getInstance() {
+        if (instance == null) {
+            instance = new ProductCategoryDaoJDBC();
+        }
+        return instance;
+    }
+
 
     @Override
     public void add(ProductCategory category) {
@@ -15,7 +32,7 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public ProductCategory find(int id) {
-        return null;
+        return instanceOFJDBC.getProductCategoryFromDB(id);
     }
 
     @Override
@@ -25,6 +42,7 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public List<ProductCategory> getAll() {
-        return null;
+        String query = "SELECT * FROM product_category";
+        return instanceOFJDBC.securedExecuteQuery(ProductCategory.class, query);
     }
 }

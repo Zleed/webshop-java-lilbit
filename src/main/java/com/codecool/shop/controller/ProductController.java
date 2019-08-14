@@ -3,6 +3,7 @@ package com.codecool.shop.controller;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.implementation.ProductCategoryDaoJDBC;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoJDBC;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 @WebServlet(urlPatterns = {"/products/*"})
 public class ProductController extends HttpServlet {
 
-    private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+    private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
 
     private ProductDao productDataStore = ProductDaoJDBC.getInstance();
 
@@ -47,10 +48,8 @@ public class ProductController extends HttpServlet {
 
         int productCategoryID = Integer.parseInt(req.getParameter("productCategoryID"));
 
-        List<Product> allProducts = productDataStore.getAll();
-
-
-        List<Product> productsByID = productDataStore.getBy(new ProductCategory(1, "asd", "asd", "asd"));
+//        System.out.println(productCategoryDataStore.find(productCategoryID).toString());
+        List<Product> productsByID = productDataStore.getBy(productCategoryDataStore.find(productCategoryID));
 
         context.setVariable("products", productsByID);
         context.setVariable("category", productCategoryDataStore.find(productCategoryID));
