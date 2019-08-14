@@ -10,6 +10,7 @@ ALTER TABLE IF EXISTS ONLY public.product DROP CONSTRAINT IF EXISTS fk_product_c
 ALTER TABLE IF EXISTS ONLY public.product DROP CONSTRAINT IF EXISTS fk_supplier_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.product_category DROP CONSTRAINT IF EXISTS pk_product_category_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.supplier DROP CONSTRAINT IF EXISTS pk_supplier_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS pk_hash CASCADE;
 
 
 DROP TABLE IF EXISTS public.product;
@@ -43,6 +44,15 @@ CREATE TABLE supplier (
     description text
 );
 
+DROP TABLE IF EXISTS public.users;
+DROP SEQUENCE IF EXISTS public.hash_seq;
+CREATE TABLE users
+(
+    name varchar(50),
+    email varchar(255),
+    hash varchar(60)
+);
+
 
 ALTER TABLE ONLY product
     ADD CONSTRAINT pk_product_id PRIMARY KEY (id);
@@ -58,6 +68,9 @@ ALTER TABLE ONLY product
 
 ALTER TABLE ONLY product
     ADD CONSTRAINT fk_supplier_id FOREIGN KEY (supplier_id) REFERENCES supplier(id);
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT pk_hash PRIMARY KEY (hash);
 
 
 -- INSERT INTO product VALUES (0, 'ischler', 500);

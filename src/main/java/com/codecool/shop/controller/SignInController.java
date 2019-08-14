@@ -30,6 +30,8 @@ public class SignInController extends HttpServlet {
         String email = req.getParameter("email");
         String hashed = BCrypt.hashpw(req.getParameter("password"), BCrypt.gensalt());
 
+
+
         resp.sendRedirect("/");
     }
 }
