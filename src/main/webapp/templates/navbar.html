@@ -5,6 +5,8 @@
 <nav th:fragment="navFragment"
      class="navbar navbar-expand-lg navbar-dark bg-dark">
 
+    <div th:replace="sidenav.html::sidenavFragment"></div>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
             aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

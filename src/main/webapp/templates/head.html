@@ -1,9 +1,8 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<head th:fragment="headFragment">
 
-    <div th:fragment="headFragment">
         <meta charset="utf-8"/>
         <meta name="author" content="Codecool"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -31,7 +30,8 @@
         <!-- End of Bootstrap components -->
 
         <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
-    </div>
+        <link rel="stylesheet" type="text/css" href="/static/css/sidenav.css" />
+        <script src="../static/js/sidenav-script.js" defer></script>
 
 </head>
 
