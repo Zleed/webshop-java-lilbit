@@ -3,7 +3,11 @@ package com.codecool.shop.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class BaseModel {
 
@@ -14,6 +18,7 @@ public class BaseModel {
     @Expose
     protected String description;
 
+
     public BaseModel(String name) {
         this.name = name;
     }
@@ -21,6 +26,18 @@ public class BaseModel {
     public BaseModel(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    public static <T extends BaseModel> T createFrom(Class<T> witness, ResultSet resultSet) {
+        try {
+            Constructor<T> ctor = witness.getDeclaredConstructor(ResultSet.class);
+            return ctor.newInstance(resultSet);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("Wrong type: " + witness, e);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException("Class "+ witness + " Has missing ctor", e);
+        }
     }
 
 

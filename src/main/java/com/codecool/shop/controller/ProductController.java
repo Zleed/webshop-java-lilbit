@@ -3,9 +3,12 @@ package com.codecool.shop.controller;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.implementation.ProductCategoryDaoJDBC;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
+import com.codecool.shop.dao.implementation.ProductDaoJDBC;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.thymeleaf.TemplateEngine;
@@ -24,9 +27,9 @@ import java.util.stream.Collectors;
 @WebServlet(urlPatterns = {"/products/*"})
 public class ProductController extends HttpServlet {
 
-    private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+    private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
 
-    private ProductDao productDataStore = ProductDaoMem.getInstance();
+    private ProductDao productDataStore = ProductDaoJDBC.getInstance();
 
 
     @Override

@@ -22,7 +22,6 @@ public class CartDaoMen implements CartDao {
         }
         return instance;
     }
-
     @Override
     public float getSumOfPrice() {
         return sumOfPrice;
