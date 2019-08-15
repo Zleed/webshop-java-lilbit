@@ -7,6 +7,7 @@ import com.codecool.shop.model.User;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,8 +42,14 @@ public class LoginController extends HttpServlet {
                 if (oldSession != null) {
                     oldSession.invalidate();
                 }
+                req.setAttribute("user", user);
 
-                req.getSession(true);
+                HttpSession session = req.getSession(true);
+                session.setAttribute("user", user.getName());
+
+//                RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/");
+//                requestDispatcher.forward(req,resp);
+
                 resp.sendRedirect("/");
             }
         } catch (NoSuchElementException e) {
