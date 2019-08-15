@@ -5,6 +5,7 @@ import com.codecool.shop.dao.UserDao;
 import com.codecool.shop.model.User;
 
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 
 public class UserDaoJDBC implements UserDao {
 
@@ -42,5 +43,12 @@ public class UserDaoJDBC implements UserDao {
                 e.printStackTrace();
             }
         }));
+    }
+
+    @Override
+    public User find(String name) throws NoSuchElementException {
+        String query = "SELECT name, email, hash FROM users WHERE email = ?";
+        return instanceOFJDBC.find(User.class, query, name);
+
     }
 }

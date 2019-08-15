@@ -5,6 +5,7 @@ import com.codecool.shop.model.BaseModel;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 public class JDBC {
@@ -62,12 +63,17 @@ public class JDBC {
 //        }
 //    }
 
-    public <T extends BaseModel> T find(Class<T> witness, String query, int id) {
+    public <T extends BaseModel> T find (Class<T> witness, String query, Object findBy)
+            throws NoSuchElementException {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setObject(1, findBy);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (!resultSet.isBeforeFirst() ) {
+                    System.out.println("No data");
+                    throw new NoSuchElementException();
+                }
                 resultSet.next();
                 return BaseModel.createFrom(witness, resultSet);
             }

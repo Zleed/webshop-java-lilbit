@@ -30,12 +30,16 @@ public class BaseModel {
 
     public static <T extends BaseModel> T createFrom(Class<T> witness, ResultSet resultSet) {
         try {
+            if (resultSet == null) {
+                throw new NullPointerException("Can not create instance from null resultSet");
+            }
             Constructor<T> ctor = witness.getDeclaredConstructor(ResultSet.class);
             return ctor.newInstance(resultSet);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             throw new IllegalArgumentException("Wrong type: " + witness, e);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
             throw new RuntimeException("Class "+ witness + " Has missing ctor", e);
         }
     }

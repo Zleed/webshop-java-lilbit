@@ -1,13 +1,22 @@
 package com.codecool.shop.model;
 
-public class User {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class User extends BaseModel {
 
     private String name;
     private String email;
     private String hash;
 
+    public User(ResultSet resultSet) throws SQLException {
+        super(resultSet.getString("name"));
+        this.email = resultSet.getString("email");
+        this.hash = resultSet.getString("hash");
+    }
+
     public User(String name, String email, String hash) {
-        this.name = name;
+        super(name);
         this.email = email;
         this.hash = hash;
     }
