@@ -9,6 +9,7 @@ import com.codecool.shop.dao.implementation.ProductDaoJDBC;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.thymeleaf.TemplateEngine;
@@ -22,6 +23,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/products/*"})
@@ -30,7 +35,6 @@ public class ProductController extends HttpServlet {
     private ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
 
     private ProductDao productDataStore = ProductDaoJDBC.getInstance();
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,15 +53,23 @@ public class ProductController extends HttpServlet {
         int productCategoryID = Integer.parseInt(req.getParameter("productCategoryID"));
 
         List<Product> productsByID = productDataStore.getBy(productCategoryDataStore.find(productCategoryID));
+        Set<Supplier> suppliers = productsByID
+                .stream()
+                .map(item -> item.getSupplier())
+                .collect(Collectors.toSet());
 
         context.setVariable("products", productsByID);
         context.setVariable("category", productCategoryDataStore.find(productCategoryID));
-        context.setVariable("suppliers", productsByID
+        context.setVariable("suppliers", suppliers
                 .stream()
-                .map(item -> item.getSupplier())
-                .collect(Collectors.toSet()));
+                .filter(distinctByKey(supplier -> supplier.getId())) //TODO
+                .collect(Collectors.toList()));
     }
 
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -100,6 +112,5 @@ public class ProductController extends HttpServlet {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(objectToString);
     }
-
 
 }

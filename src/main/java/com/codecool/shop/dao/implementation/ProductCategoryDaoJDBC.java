@@ -4,6 +4,7 @@ import com.codecool.shop.dao.JDBC;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProductCategoryDaoJDBC implements ProductCategoryDao {
@@ -27,7 +28,23 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public void add(ProductCategory category) {
+                String query = "INSERT INTO product_category " +
+                "(name, description, department) " +
+                "VALUES (?, ?, ?)";
 
+        instanceOFJDBC.CUDQuery(query, (preparedStatement -> {
+            try {
+                preparedStatement.setString(1, category.getName());
+                preparedStatement.setString(2, category.getDescription());
+                preparedStatement.setString(3, category.getDepartment());
+
+
+                preparedStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
     @Override

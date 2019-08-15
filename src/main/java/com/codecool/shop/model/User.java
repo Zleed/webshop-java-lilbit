@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 public class User extends BaseModel {
 
-    private String name;
     private String email;
     private String hash;
 

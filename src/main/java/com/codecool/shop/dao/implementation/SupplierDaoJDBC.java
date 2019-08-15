@@ -4,6 +4,7 @@ import com.codecool.shop.dao.JDBC;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class SupplierDaoJDBC implements SupplierDao {
@@ -24,7 +25,21 @@ public class SupplierDaoJDBC implements SupplierDao {
 
     @Override
     public void add(Supplier supplier) {
+                String query = "INSERT INTO supplier " +
+                "(name, description) " +
+                "VALUES (?, ?)";
 
+        instanceOFJDBC.CUDQuery(query, (preparedStatement -> {
+            try {
+                preparedStatement.setString(1, supplier.getName());
+                preparedStatement.setString(2, supplier.getDescription());
+
+                preparedStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.List;
 public class Supplier extends BaseModel {
 
     private List<Product> products = new ArrayList<>();
+    private static int COUNT = 1;
 
 
     public Supplier(ResultSet supplierData) throws SQLException {
@@ -16,6 +17,10 @@ public class Supplier extends BaseModel {
         description = supplierData.getString("description");
     }
 
+    public Supplier(String name, String description) {
+        super(name, description);
+        id = COUNT++;
+    }
 
     public void setProducts(ArrayList<Product> products) {
         this.products = products;

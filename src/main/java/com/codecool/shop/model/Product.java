@@ -19,6 +19,17 @@ public class Product extends BaseModel {
     @Expose
     private Supplier supplier;
 
+    private static int COUNT = 1;
+
+    public Product(String name, float defaultPrice, String defaultCurrency, String description,  ProductCategory productCategory, Supplier supplier) {
+        super(name, description);
+        this.defaultPrice = defaultPrice;
+        this.defaultCurrency = Currency.getInstance(defaultCurrency);
+        this.productCategory = productCategory;
+        this.supplier = supplier;
+        id = COUNT++;
+    }
+
     public Product(ResultSet ProductData) throws SQLException {
         super(ProductData.getString("name"), ProductData.getString("description"));
         id = ProductData.getInt("id");

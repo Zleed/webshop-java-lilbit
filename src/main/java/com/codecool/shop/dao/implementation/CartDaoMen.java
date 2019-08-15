@@ -27,24 +27,44 @@ public class CartDaoMen implements CartDao {
         return sumOfPrice;
     }
 
+
     @Override
     public void removeAll(Product product) {
-        sumOfPrice -= product.getPrince() * getProductQuantity(product);
-        data.remove(product);
+        for (HashMap.Entry<Product, Integer> prod : data.entrySet()) {
+            if (product.getId() == (prod.getKey().getId())) {
+                sumOfPrice -= product.getPrince() * getProductQuantity(prod.getKey());
+                data.remove(prod.getKey());
+            }
+        }
     }
 
     @Override
     public void add(Product product) {
-        int count = data.getOrDefault(product, 0);
-        data.put(product, count + 1);
+        boolean found = false;
+
+        for (HashMap.Entry<Product, Integer> prod : data.entrySet()) {
+            if (product.getId() == (prod.getKey().getId())) {
+                data.put(prod.getKey(), prod.getValue() + 1);
+                found = true;
+
+            }
+        }
+        if(!found) data.put(product, 1);
+
+
         sumOfPrice += product.getPrince();
     }
 
     @Override
     public void remove(Product product) {
-        data.put(product, data.get(product) - 1);
-        if (data.get(product) == 0) data.remove(product);
-        sumOfPrice -= product.getPrince();
+
+        for (HashMap.Entry<Product, Integer> prod : data.entrySet()) {
+            if (product.getId() == (prod.getKey().getId())) {
+                data.put(prod.getKey(), prod.getValue() - 1);
+                if (prod.getValue() == 0) data.remove(prod.getKey());
+                sumOfPrice -= product.getPrince();
+            }
+        }
     }
 
     @Override

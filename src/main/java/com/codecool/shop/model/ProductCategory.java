@@ -11,6 +11,7 @@ public class ProductCategory extends BaseModel {
     private String department;
 
     private List<Product> products = new ArrayList<>();
+    private static int COUNT = 1;
 
 
     public ProductCategory(ResultSet data) throws SQLException {
@@ -19,6 +20,11 @@ public class ProductCategory extends BaseModel {
         this.setDepartment(data.getString("department"));
     }
 
+    public ProductCategory(String name, String description, String department) {
+        super(name, description);
+        this.department = department;
+        id = COUNT++;
+    }
 
     public String getDepartment() {
         return department;
