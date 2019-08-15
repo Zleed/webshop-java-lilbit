@@ -12,8 +12,8 @@ public class JDBC {
 
     //  Database URL & credentials
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/codecoolshop";
-    private static final String USER = "lorand";
-    private static final String PASS = "lori123";
+    private static final String USER = "tom";
+    private static final String PASS = "Zl9517532684Zl";
 
     private static JDBC instance = null;
 

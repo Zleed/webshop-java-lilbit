@@ -3,6 +3,7 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.implementation.CartDaoMen;
+import com.codecool.shop.dao.implementation.ProductDaoJDBC;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.model.Product;
 import com.google.gson.Gson;
@@ -23,7 +24,7 @@ public class APICartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJDBC.getInstance();
         CartDao cartData = CartDaoMen.getInstance();
         String process = req.getParameter("process");
         Product product = productDataStore.find(Integer.parseInt(req.getParameter("productID")));

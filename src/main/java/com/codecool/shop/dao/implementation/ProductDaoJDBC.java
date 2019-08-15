@@ -71,7 +71,7 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public Product find(int id) {
-        return null;
+        return instanceOFJDBC.find(Product.class, "SELECT * FROM product WHERE id = ?", id);
     }
 
     @Override
