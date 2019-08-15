@@ -1,5 +1,7 @@
 package com.codecool.shop.model;
 
+import com.codecool.shop.dao.implementation.OrderDaoJDBC;
+
 import java.util.HashMap;
 
 public class Order {
@@ -13,12 +15,13 @@ public class Order {
 
     public Order(Status status, HashMap<Product,Integer> orderedProducts) {
         this.status = status;
+        this.user_id = 1;
         this.orderedProducts = orderedProducts;
     }
 
 
-    private void saveToDataBase() {
-
+    public void saveToDataBase() {
+        OrderDaoJDBC.getInstance().add(this);
     }
 
 

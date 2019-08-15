@@ -4,6 +4,7 @@ import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.implementation.CartDaoMen;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.dao.implementation.OrderDaoJDBC;
 import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Status;
@@ -35,10 +36,9 @@ public class CartController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         CartDao cartData = CartDaoMen.getInstance();
-        OrderDao orderDataStore = OrderDaoMem.getInstance();
 
         Order order = new Order(Status.CHECKED, cartData.getAll());
-        orderDataStore.add(order);
+        order.saveToDataBase();
 
         req.setAttribute("orderID", order.getId());
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/payment");

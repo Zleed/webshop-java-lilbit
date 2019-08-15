@@ -28,7 +28,7 @@ public class OrderDaoJDBC implements OrderDao {
 
     @Override
     public void add(Order order) {
-                String query = "INSERT INTO product " +
+                String query = "INSERT INTO orders " +
                 "(user_id, product_id, quantity, status) " +
                 "VALUES (?, ?, ?, ?)";
                 for (HashMap.Entry<Product, Integer> prod : order.getOrderedProducts().entrySet()) {
