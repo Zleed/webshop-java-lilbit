@@ -10,7 +10,11 @@ ALTER TABLE IF EXISTS ONLY public.product DROP CONSTRAINT IF EXISTS fk_product_c
 ALTER TABLE IF EXISTS ONLY public.product DROP CONSTRAINT IF EXISTS fk_supplier_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.product_category DROP CONSTRAINT IF EXISTS pk_product_category_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.supplier DROP CONSTRAINT IF EXISTS pk_supplier_id CASCADE;
-ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS pk_hash CASCADE;
+ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS pk_user_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.orders DROP CONSTRAINT IF EXISTS pk_orders_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.orders DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.orders DROP CONSTRAINT IF EXISTS fk_product_id CASCADE;
+
 
 
 DROP TABLE IF EXISTS public.product;
@@ -46,13 +50,38 @@ CREATE TABLE supplier (
 
 DROP TABLE IF EXISTS public.users;
 DROP SEQUENCE IF EXISTS public.hash_seq;
-CREATE TABLE users
-(
+CREATE TABLE users(
     name varchar(50),
     email varchar(255),
     hash varchar(60)
 );
 
+DROP TABLE IF EXISTS public.users;
+DROP SEQUENCE IF EXISTS public.hash_seq;
+CREATE TABLE users(
+    id serial NOT NULL,
+    name varchar(50),
+    email varchar(255),
+    hash varchar(60)
+);
+
+DROP TABLE IF EXISTS public.orders;
+DROP SEQUENCE IF EXISTS public.orders_seq;
+CREATE TABLE orders(
+    id serial NOT NULL,
+    user_id integer,
+    product_id integer
+);
+
+DROP TABLE IF EXISTS public.orders;
+DROP SEQUENCE IF EXISTS public.orders_seq;
+CREATE TABLE orders(
+    id serial NOT NULL,
+    user_id integer,
+    product_id integer,
+    quantity integer,
+    status varchar(15)
+);
 
 ALTER TABLE ONLY product
     ADD CONSTRAINT pk_product_id PRIMARY KEY (id);
@@ -70,7 +99,19 @@ ALTER TABLE ONLY product
     ADD CONSTRAINT fk_supplier_id FOREIGN KEY (supplier_id) REFERENCES supplier(id);
 
 ALTER TABLE ONLY users
+    ADD CONSTRAINT pk_user_id PRIMARY KEY (id);
+
+ALTER TABLE ONLY users
     ADD CONSTRAINT pk_hash PRIMARY KEY (hash);
+
+ALTER TABLE ONLY orders
+    ADD CONSTRAINT pk_orders_id PRIMARY KEY (id);
+
+ALTER TABLE ONLY orders
+    ADD CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES product(id);
+
+ALTER TABLE ONLY orders
+    ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 -- INSERT INTO product VALUES (0, 'ischler', 500);
