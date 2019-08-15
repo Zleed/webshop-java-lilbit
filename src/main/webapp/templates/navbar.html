@@ -24,8 +24,11 @@
         <!--            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>-->
         <!--        </form>-->
 
-        <div th:if="${#session != null}">Logged in as</div>
-        <a th:if="${#session != null}" href="/logout">Logout</a>
+        <div id="loggedIn" class="white"
+             th:if="${#session != null}"
+             th:text="'Logged in as ' + ${#session.getAttribute('user')}">Logged in as</div>
+        <a class="btn btn-danger navbar-brand"
+           th:if="${#session != null}" href="/logout">Logout</a>
 
     </div>
 
@@ -33,7 +36,7 @@
         <a class="btn btn-dark navbar-brand" href="/login">Login</a>
     </div>
 
-    <a class="btn btn-dark navbar-brand" href="/cart">Cart</a>
+    <a class="btn btn-success navbar-brand" href="/cart">Cart</a>
 
 </nav>
 

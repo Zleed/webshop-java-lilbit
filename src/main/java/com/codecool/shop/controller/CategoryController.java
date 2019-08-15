@@ -29,4 +29,19 @@ public class CategoryController extends HttpServlet {
 
         engine.process("product/categories.html", context, resp.getWriter());
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJDBC.getInstance();
+
+        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
+
+        WebContext context = new WebContext(req, resp, req.getServletContext());
+
+        context.setVariable("categories", productCategoryDataStore.getAll());
+        context.setVariable("user", req.getAttribute("user"));
+
+        engine.process("product/categories.html", context, resp.getWriter());
+    }
 }

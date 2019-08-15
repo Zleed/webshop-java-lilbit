@@ -52,3 +52,10 @@
     color: white;
     font-size: 1.5em;
 }
+
+#loggedIn {
+    margin-right: 1%;
+    padding-left: .5rem;
+    padding-right: .9rem;
+    font-size: 1rem;
+}
