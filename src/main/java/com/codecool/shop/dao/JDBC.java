@@ -35,8 +35,8 @@ public class JDBC {
 
     public void executeQuery(String query, Object... parameters) {
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
+             PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ) {
             System.out.println("Creating statement...");
             int i = 1;
             for (Object parameter : parameters) {
