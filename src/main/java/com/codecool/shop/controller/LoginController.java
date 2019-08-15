@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
@@ -36,7 +37,12 @@ public class LoginController extends HttpServlet {
         try {
             User user = userInstance.find(req.getParameter("email"));
             if (BCrypt.checkpw(req.getParameter("password"),user.getHash())) {
-                System.out.println("YEAHH MATHAFACKAAA");
+                HttpSession oldSession = req.getSession(false);
+                if (oldSession != null) {
+                    oldSession.invalidate();
+                }
+
+                req.getSession(true);
                 resp.sendRedirect("/");
             }
         } catch (NoSuchElementException e) {
