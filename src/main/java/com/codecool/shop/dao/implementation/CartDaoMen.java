@@ -4,10 +4,12 @@ import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.model.Product;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class CartDaoMen implements CartDao {
 
-    private HashMap<Product, Integer> data = new HashMap<Product, Integer>();
+    private HashMap<Product, Integer> data = new HashMap<>();
     private static CartDaoMen instance = null;
     private float sumOfPrice = 0;
 
@@ -30,10 +32,13 @@ public class CartDaoMen implements CartDao {
 
     @Override
     public void removeAll(Product product) {
-        for (HashMap.Entry<Product, Integer> prod : data.entrySet()) {
-            if (product.getId() == (prod.getKey().getId())) {
-                sumOfPrice -= product.getPrince() * getProductQuantity(prod.getKey());
-                data.remove(prod.getKey());
+
+        Iterator<Map.Entry<Product,Integer>> entryIt = data.entrySet().iterator();
+        while (entryIt.hasNext()) {
+            Map.Entry<Product,Integer> entry = entryIt.next();
+            if (product.getId() == entry.getKey().getId()) {
+                sumOfPrice -= product.getPrince() * getProductQuantity(entry.getKey());
+                entryIt.remove();
             }
         }
     }
@@ -58,11 +63,14 @@ public class CartDaoMen implements CartDao {
     @Override
     public void remove(Product product) {
 
-        for (HashMap.Entry<Product, Integer> prod : data.entrySet()) {
-            if (product.getId() == (prod.getKey().getId())) {
-                data.put(prod.getKey(), prod.getValue() - 1);
-                if (prod.getValue() == 0) data.remove(prod.getKey());
+        Iterator<Map.Entry<Product,Integer>> entryIt = data.entrySet().iterator();
+        while (entryIt.hasNext()) {
+            Map.Entry<Product,Integer> entry = entryIt.next();
+            if (product.getId() == entry.getKey().getId()) {
+                data.put(entry.getKey(), entry.getValue() - 1);
+                if (entry.getValue() == 0) entryIt.remove();
                 sumOfPrice -= product.getPrince();
+
             }
         }
     }
